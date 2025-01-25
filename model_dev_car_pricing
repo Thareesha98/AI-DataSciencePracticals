@@ -2,3 +2,17 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+import requests as rq
+import asyncio
+
+async def download(url,filename):
+    response = rq.get(url, filename)
+    if response.status_code == 200:
+        with open(filename, "wb+") as f:
+            f.write(response.content)
+
+
+file_path= "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-DA0101EN-SkillsNetwork/labs/Data%20files/automobileEDA.csv"
+filename = "usedcars.csv"
+
+asyncio.run(download(file_path,filename))
