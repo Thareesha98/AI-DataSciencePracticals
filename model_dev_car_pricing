@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 import requests as rq
 import asyncio
+import seaborn as sns
 
 async def download(url,filename):
     response = rq.get(url, filename)
@@ -23,11 +24,26 @@ df.head()
 
 from sklearn.linear_model import LinearRegression
 lm = LinearRegression()
+lm2 = LinearRegression()
+
 X = df[['highway-mpg']]
 Y = df[['price']]
 
+X2 = df[['engine-size']]
+
 lm.fit(X,Y)
+lm2.fit(X2,Y)
 
 Yhat = lm.predict(X)
+Yhat2 = lm2.predict(X2)
 Yhat[0:5]
+#print(Yhat2[0:5])
 
+
+lm3 = LinearRegression()
+lm3.fit(df[['normalized-losses' , 'highway-mpg']],df['price'])
+
+plt.figure(figsize=(12,10))
+sns.regplot(x="highway-mpg" , y="price", data=df)
+plt.ylim(0,)
+plt.show()
